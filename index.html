@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth overflow-x-hidden w-full">
+<head>
+    <meta charset="UTF-8">
+    <title>IA Milion - Comunidade VIP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gold-accent': '#FFB300',
+                        'deep-black': '#0A0A0A',
+                        'dark-gold': '#1A1200',
+                        'light-gold': '#FFE082',
+                        'silver-grey': '#9CA3AF',
+                        'silver': '#E6E6E6',
+                    },
+                    fontFamily: {
+                        'anton': ['Anton', 'sans-serif'],
+                        'montserrat': ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* CSS Customizado Base */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0A0A0A;
+            color: #E6E6E6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .font-anton {
+            font-family: 'Anton', sans-serif;
+            letter-spacing: 0.05em;
+        }
+
+        /* Technical Grid Pattern */
+        .bg-grid {
+            background-image:
+                linear-gradient(to right, rgba(255, 179, 0, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 179, 0, 0.04) 1px, transparent 1px);
+            background-size: 32px 32px;
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Texto Brilhante Ouro */
+        @keyframes gold-shine {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .animate-gold-shine {
+            background-image: linear-gradient(to right, #FFB300 20%, #FFF3CC 50%, #FFB300 80%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: gold-shine 6s linear infinite;
+        }
+
+        /* Botão CTA */
+        .cta-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 1px rgba(255, 179, 0, 0.2), 0 10px 30px -10px rgba(255, 179, 0, 0.3);
+        }
+
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: skewX(-20deg);
+            transition: 0.7s;
+        }
+
+        .cta-button:hover {
+            box-shadow: 0 0 0 1px rgba(255, 179, 0, 0.5), 0 15px 40px -10px rgba(255, 179, 0, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .cta-button:hover::after {
+            left: 200%;
+        }
+
+        @keyframes pulse-tech {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 179, 0, 0.4); }
+            50% { box-shadow: 0 0 0 15px rgba(255, 179, 0, 0); }
+        }
+
+        .pulse-tech-button {
+            animation: pulse-tech 2.5s infinite cubic-bezier(0.66, 0, 0, 1);
+        }
+
+        /* Animações */
+        .slide-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slide-up-anim 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slide-up-anim {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* FAQ Styling */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+
+        details[open] summary ~ * {
+            animation: sweep 0.3s ease-in-out;
+        }
+
+        @keyframes sweep {
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Carousel */
+        .carousel-container {
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+            width: max-content;
+            animation: scroll-carousel 40s linear infinite;
+        }
+
+        .carousel-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll-carousel {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Ambient Glow */
+        .ambient-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,179,0,0.08) 0%, rgba(10,10,10,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="bg-deep-black text-silver">
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-deep-black">
+        <!-- Background Grid -->
+        <div class="bg-grid"></div>
+
+        <!-- Ambient Glow -->
+        <div class="ambient-glow -left-[300px] top-[40%]"></div>
+        <div class="ambient-glow -right-[300px] top-[70%]"></div>
+
+        <!-- Hero Image Background -->
+        <div class="absolute inset-0 z-0">
+            <img src="header.webp" alt="IA Milion" class="w-full h-full object-cover opacity-40">
+        </div>
+
+        <!-- Content -->
+        <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+            <div class="mb-8 flex justify-center">
+                <div class="w-2 h-2 bg-gold-accent rounded-full"></div>
+            </div>
+
+            <h1 class="font-anton text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                <span class="text-white">ENTRE AGORA PARA A</span><br>
+                <span class="text-gold-accent">COMUNIDADE VIP DO WHATSAPP</span><br>
+                <span class="text-white">E RECEBA</span> <span class="text-gold-accent">IA MILION</span> <span class="text-white">DE GRAÇA!</span>
+            </h1>
+
+            <p class="text-silver-grey text-lg mb-8">Seu acesso será liberado no botão abaixo!</p>
+
+            <a href="#" class="cta-button pulse-tech-button inline-block bg-gold-accent hover:bg-yellow-500 text-deep-black font-bold py-4 px-12 rounded-full text-lg transition-all">
+                <span class="flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.5 1.5H3.75A2.25 2.25 0 001.5 3.75v12.5A2.25 2.25 0 003.75 18.5h12.5a2.25 2.25 0 002.25-2.25V9.5"></path>
+                        <path d="M6.5 10.5L10 14l7-7"></path>
+                    </svg>
+                    PEGAR MEU ACESSO AGORA!
+                </span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="relative py-20 bg-deep-black">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="font-anton text-4xl md:text-5xl text-center mb-16 text-white">
+                A <span class="text-gold-accent">IA MILION</span> É PARA VOCÊ QUE...
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Feature 1 -->
+                <div class="reveal bg-dark-gold bg-opacity-50 p-8 rounded-lg border border-gold-accent border-opacity-20 hover:border-opacity-50 transition-all">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="w-12 h-12 bg-gold-accent bg-opacity-20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-gold-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-anton text-xl text-white">ESTÁ COMEÇANDO NO MERCADO FINANCEIRO E NÃO SABE POR ONDE COMEÇAR.</h3>
+                    </div>
+                    <p class="text-silver-grey">Com a IA Milion, você não precisa ser um especialista. Nossa ferramenta faz o trabalho pesado para você, analisando o mercado em tempo real e entregando os sinais de forma clara e objetiva.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="reveal bg-dark-gold bg-opacity-50 p-8 rounded-lg border border-gold-accent border-opacity-20 hover:border-opacity-50 transition-all">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="w-12 h-12 bg-gold-accent bg-opacity-20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-gold-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-anton text-xl text-white">QUER RESULTADOS CONSISTENTES, MAS SEM COMPLICAÇÕES.</h3>
+                    </div>
+                    <p class="text-silver-grey">Sabemos que o mercado financeiro pode ser desafiador, mas com a IA Milion, simplificamos o processo para que você possa focar no que importa: crescer e alcançar seus objetivos.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="reveal bg-dark-gold bg-opacity-50 p-8 rounded-lg border border-gold-accent border-opacity-20 hover:border-opacity-50 transition-all">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="w-12 h-12 bg-gold-accent bg-opacity-20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-gold-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-anton text-xl text-white">BUSCA INDEPENDÊNCIA FINANCEIRA E MAIS QUALIDADE DE VIDA.</h3>
+                    </div>
+                    <p class="text-silver-grey">Através de nossas estratégias inteligentes e suporte 24/7, ajudamos você a criar uma nova fonte de renda, trabalhando com mais segurança e confiança.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="reveal bg-dark-gold bg-opacity-50 p-8 rounded-lg border border-gold-accent border-opacity-20 hover:border-opacity-50 transition-all">
+                    <div class="flex items-start gap-4 mb-4">
+                        <div class="w-12 h-12 bg-gold-accent bg-opacity-20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-gold-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-anton text-xl text-white">JÁ TENTOU OPERAR NO MERCADO, MAS NÃO TEVE SUCESSO.</h3>
+                    </div>
+                    <p class="text-silver-grey">Entendemos as dificuldades do começo. Com a IA Milion, você conta com ferramentas modernas e uma equipe experiente ao seu lado, garantindo que sua jornada seja mais fácil e lucrativa.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="relative py-20 bg-deep-black">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="font-anton text-4xl md:text-5xl text-center mb-16 text-white">
+                O QUE <span class="text-gold-accent">NOSSOS ALUNOS</span> DIZEM...
+            </h2>
+
+            <div class="carousel-container">
+                <div class="carousel-track">
+                    <!-- Testimonial 1 -->
+                    <div class="flex-shrink-0 w-80 mx-4">
+                        <img src="01.webp" alt="Depoimento 1" class="w-full rounded-lg">
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div class="flex-shrink-0 w-80 mx-4">
+                        <img src="02.webp" alt="Depoimento 2" class="w-full rounded-lg">
+                    </div>
+
+                    <!-- Testimonial 3 -->
+                    <div class="flex-shrink-0 w-80 mx-4">
+                        <img src="03.webp" alt="Depoimento 3" class="w-full rounded-lg">
+                    </div>
+
+                    <!-- Repeat for infinite scroll -->
+                    <div class="flex-shrink-0 w-80 mx-4">
+                        <img src="01.webp" alt="Depoimento 1" class="w-full rounded-lg">
+                    </div>
+
+                    <div class="flex-shrink-0 w-80 mx-4">
+                        <img src="02.webp" alt="Depoimento 2" class="w-full rounded-lg">
+                    </div>
+
+                    <div class="flex-shrink-0 w-80 mx-4">
+                        <img src="03.webp" alt="Depoimento 3" class="w-full rounded-lg">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center">
+                <a href="#" class="cta-button inline-block bg-gold-accent hover:bg-yellow-500 text-deep-black font-bold py-4 px-12 rounded-full text-lg transition-all">
+                    <span class="flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5z"></path>
+                        </svg>
+                        CLIQUE AQUI ENTRE NO GRUPO E COMECE AGORA!
+                    </span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="relative py-20 bg-deep-black">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="font-anton text-4xl md:text-5xl text-center mb-16 text-white">
+                <span class="text-gold-accent">FAQ</span>
+            </h2>
+
+            <div class="space-y-4">
+                <!-- FAQ 1 -->
+                <details class="group border-2 border-gold-accent border-opacity-30 rounded-lg p-6 cursor-pointer hover:border-opacity-50 transition-all">
+                    <summary class="flex items-center justify-between font-bold text-white text-lg">
+                        <span>E SE EU NÃO CONSEGUIR LUCRAR?</span>
+                        <span class="text-gold-accent group-open:rotate-180 transition-transform">+</span>
+                    </summary>
+                    <p class="text-silver-grey mt-4">Nossos sinais são enviados com alta precisão e baseados em análises da nossa IA Milion, mas sabemos que resultados podem variar. Por isso, oferecemos estratégias personalizadas e suporte dedicado para ajudar você a alcançar os melhores resultados.</p>
+                </details>
+
+                <!-- FAQ 2 -->
+                <details class="group border-2 border-gold-accent border-opacity-30 rounded-lg p-6 cursor-pointer hover:border-opacity-50 transition-all">
+                    <summary class="flex items-center justify-between font-bold text-white text-lg">
+                        <span>QUALQUER INICIANTE CONSEGUE LUCRAR?</span>
+                        <span class="text-gold-accent group-open:rotate-180 transition-transform">+</span>
+                    </summary>
+                    <p class="text-silver-grey mt-4">Sim! A IA Milion foi desenvolvida para ser simples e intuitiva, mesmo para quem nunca operou no mercado financeiro. Basta seguir os sinais e as orientações oferecidas para começar a lucrar.</p>
+                </details>
+
+                <!-- FAQ 3 -->
+                <details class="group border-2 border-gold-accent border-opacity-30 rounded-lg p-6 cursor-pointer hover:border-opacity-50 transition-all">
+                    <summary class="flex items-center justify-between font-bold text-white text-lg">
+                        <span>EU VOU TER SUPORTE?</span>
+                        <span class="text-gold-accent group-open:rotate-180 transition-transform">+</span>
+                    </summary>
+                    <p class="text-silver-grey mt-4">Com certeza! Nosso suporte está disponível 24 horas por dia, pronto para tirar todas as suas dúvidas e garantir que você tenha a melhor experiência possível.</p>
+                </details>
+
+                <!-- FAQ 4 -->
+                <details class="group border-2 border-gold-accent border-opacity-30 rounded-lg p-6 cursor-pointer hover:border-opacity-50 transition-all">
+                    <summary class="flex items-center justify-between font-bold text-white text-lg">
+                        <span>E SE EU NÃO SOUBER NADA DE MERCADO FINANCEIRO?</span>
+                        <span class="text-gold-accent group-open:rotate-180 transition-transform">+</span>
+                    </summary>
+                    <p class="text-silver-grey mt-4">Não tem problema! A IA Milion é perfeita para iniciantes. Ela faz as análises por você e entrega sinais claros e objetivos, para que você só precise seguir as instruções.</p>
+                </details>
+
+                <!-- FAQ 5 -->
+                <details class="group border-2 border-gold-accent border-opacity-30 rounded-lg p-6 cursor-pointer hover:border-opacity-50 transition-all">
+                    <summary class="flex items-center justify-between font-bold text-white text-lg">
+                        <span>QUAIS OS MEIOS DE PAGAMENTO?</span>
+                        <span class="text-gold-accent group-open:rotate-180 transition-transform">+</span>
+                    </summary>
+                    <p class="text-silver-grey mt-4">O acesso à nossa sala de sinais e à IA Milion é gratuito! Basta seguir os passos indicados para cadastro na corretora e começar a usar. Não há custos adicionais.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Final Section -->
+    <section class="relative py-20 bg-deep-black">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="font-anton text-4xl md:text-5xl mb-8 text-white">
+                RESTOU ALGUMA <span class="text-gold-accent">DÚVIDA?</span>
+            </h2>
+
+            <a href="#" class="cta-button inline-block bg-gold-accent hover:bg-yellow-500 text-deep-black font-bold py-4 px-12 rounded-full text-lg transition-all">
+                <span class="flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773c.346.72.827 1.365 1.41 1.91a7 7 0 0010.929-9.11 1 1 0 00-1.35-.122l-1.378 1.15a1 1 0 00-.228 1.183 5 5 0 11-6.331-6.612 1 1 0 00-.9-1.758H3a1 1 0 00-1 1z"></path>
+                    </svg>
+                    FALE COM NOSSO SUPORTE
+                </span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark-gold bg-opacity-50 border-t border-gold-accent border-opacity-20 py-8">
+        <div class="max-w-6xl mx-auto px-6 text-center text-silver-grey text-sm">
+            <p>© SULYVAN TRADER 2024 - TODOS OS DIREITOS RESERVADOS.</p>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealOnScroll = () => {
+            revealElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementBottom = element.getBoundingClientRect().bottom;
+
+                if (elementTop < window.innerHeight && elementBottom > 0) {
+                    element.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Initial check
+    </script>
+</body>
+</html>
